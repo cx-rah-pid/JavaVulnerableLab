@@ -14,21 +14,21 @@ jobs:
 - job: Job_1
   displayName: Agent job 1
   pool:
-    name: Default
+    name: Linux Agent
   steps:
-  - checkout: self
-    clean: true
-    fetchTags: false
-  - task: Application security testing@2024
+
+
+
+  - task: Application security testing@2025
     displayName: Application security testing
     inputs:
-      projectName: RP-001
-      CheckmarxService: SAST 9.7
-      fullTeamName: CxServer
+      projectName: 'RahulP-101'
+      enableProxy: false
       enableSastScan: true
-      fullScansScheduled: false
+      CheckmarxService: 'SAST 67 server'
+      enableSastBranching: false
+      fullTeamName: 'CxServer'
+      incScan: false
+      generatePDFReport: true
       enableDependencyScan: false
-      dependencyServerURL: b39e829f-81c9-478e-b35b-20bec8018f9e
-      isEnableScaResolver: true
-      pathToScaResolver : ''
-      scaResolverAddParameters: -s D:\Repo\cxvscode -n CheckmarxTest --resolver-result-path C:\SCAResolver\SCA Result\a.json  --log-level Debug
+      vulnerabilityThreshold: true

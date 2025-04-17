@@ -22,7 +22,7 @@ jobs:
   - task: Application security testing@2025
     displayName: Application security testing
     inputs:
-      projectName: 'RahulP-101'
+      projectName: 'RahulP-eyteyueu'
       enableProxy: false
       enableSastScan: true
       CheckmarxService: 'SAST 67 server'

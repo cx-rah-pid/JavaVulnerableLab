@@ -32,3 +32,4 @@ jobs:
       generatePDFReport: true
       enableDependencyScan: false
       vulnerabilityThreshold: true
+      engineConfigId : '0'

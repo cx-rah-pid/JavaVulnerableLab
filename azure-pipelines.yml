@@ -37,7 +37,7 @@ stages:
         targetType: 'inline'
         script: |
           $sx = 'C:\CLI\ScaResolver-win64\ScaResolver.exe'
-          $cmd = "cx scan create --project-name RahulP-Javavulnerable -s C:\CxOnePlugins\Sample-Projects\JavaVulnerableLab\src --branch main --sca-resolver $sx --sca-resolver-params ""--gradle-parameters=-pUSERNAME=abc -pPASSWORD=cba --log-level Debug"""
+          $cmd = "C:\ADO Agent\vsts-agent-win-x64-4.261.0\_work\_tasks\Checkmarx AST_dd862edc-5d88-4d2c-b83b-fff2a695e5c0\3.0.16\node_modules\@checkmarxdev\ast-cli-javascript-wrapper-runtime-cli\dist\main\wrapper\resources\cx.exe scan create --project-name RahulP-Javavulnerable -s C:\CxOnePlugins\Sample-Projects\JavaVulnerableLab\src --branch main --sca-resolver $sx --sca-resolver-params ""--gradle-parameters=-pUSERNAME=abc -pPASSWORD=cba --log-level Debug"""
           Write-Host "Command: $cmd"
           iex $cmd
     - task: Checkmarx AST@3

@@ -32,4 +32,5 @@ stages:
         CheckmarxService: 'CxOne-Seg'
         projectName: 'RahulP-Javavulnerable'
         branchName: 'main'
-        tenantName: 'cx_seg'        
+        tenantName: 'cx_seg'    
+        additionalParams: --sca-resolver /home/vsts/work/1/s/ScaResolver --log-level Debug"    

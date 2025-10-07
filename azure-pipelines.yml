@@ -1,37 +1,42 @@
 trigger:
   branches:
     include:
-    - main
+      - main
 
 stages:
 - stage: __default
   jobs:
   - job: Job
     pool:
-      name: Default
+      name: Default   # 👈 Uses self-hosted agent in the 'Default' pool
     steps:
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
-          wget "https://sca-downloads.s3.amazonaws.com/cli/2.12.34/ScaResolver-win64.zip"
+          Invoke-WebRequest -Uri "https://sca-downloads.s3.amazonaws.com/cli/2.12.34/ScaResolver-win64.zip" -OutFile "ScaResolver-win64.zip"
       displayName: 'Download sca-resolver'
+
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
-          tar -xzvf "ScaResolver-win64.zip"
-      displayName: 'unzip sca-resolver'
+          Expand-Archive -Path "ScaResolver-win64.zip" -DestinationPath "$(System.DefaultWorkingDirectory)\ScaResolver"
+      displayName: 'Unzip sca-resolver'
+
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
-          rm -rf "ScaResolver-win64.zip"
-      displayName: 'remove tar file'
+          Remove-Item "ScaResolver-win64.zip" -Force
+      displayName: 'Remove ZIP file'
+
     - task: Checkmarx AST@3
       inputs:
         CheckmarxService: 'CxOne-Seg'
         projectName: 'RahulP-Javavulnerable'
         branchName: 'main'
         tenantName: 'cx_seg'    
-        additionalParams: --sca-resolver /home/vsts/work/1/s/ScaResolver --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba'"
+        additionalParams: >
+          --sca-resolver "$(System.DefaultWorkingDirectory)\ScaResolver" 
+          --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba'"

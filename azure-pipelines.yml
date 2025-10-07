@@ -29,8 +29,8 @@ stages:
       displayName: 'remove tar file'
     - task: Checkmarx AST@3
       inputs:
-        CheckmarxService: 'CxAST Connection new'
-        projectName: '00252150-ADO-CLI-SCAResolver'
+        CheckmarxService: 'CxOne-Seg'
+        projectName: 'RahulP-Javavulnerable'
         branchName: 'main'
         tenantName: 'cx_seg'
         additionalParams: --sca-resolver /home/vsts/work/1/s/ScaResolver --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug"

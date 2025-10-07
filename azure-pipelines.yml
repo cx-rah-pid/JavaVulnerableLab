@@ -38,5 +38,6 @@ stages:
         branchName: 'main'
         tenantName: 'cx_seg'    
         additionalParams: >
+          -s C:\CxOnePlugins\Sample-Projects\JavaVulnerableLab
           --sca-resolver "$(System.DefaultWorkingDirectory)\ScaResolver\ScaResolver.exe" 
           --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba'"

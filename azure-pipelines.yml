@@ -34,4 +34,4 @@ stages:
         projectName: 'RahulP-Javavulnerable'
         branchName: 'main'
         tenantName: 'cx_seg'    
-        additionalParams: --sca-resolver /home/vsts/work/1/s/ScaResolver --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug"
+        additionalParams: --sca-resolver /home/vsts/work/1/s/ScaResolver --sca-resolver-params --gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug

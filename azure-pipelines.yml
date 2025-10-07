@@ -1,35 +1,37 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- master
-
-variables:
-- name: System.Debug
-  value: true
-
-jobs:
-- job: Job_1
-  displayName: Agent job 1
-  pool:
-    name: Default
-  steps:
-
-
-
-  - task: Application security testing@2025
-    displayName: Application security testing
-    inputs:
-      projectName: 'RahulP-eyteyueu'
-      enableProxy: false
-      enableSastScan: true
-      CheckmarxService: 'SAST 67 server'
-      enableSastBranching: false
-      fullTeamName: 'CxServer'
-      incScan: false
-      generatePDFReport: true
-      enableDependencyScan: false
-      vulnerabilityThreshold: true
-      engineConfigId : '0'
+  branches:
+    include:
+    - main
+stages:
+- stage: __default
+  jobs:
+  - job: Job
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          wget "https://sca-downloads.s3.amazonaws.com/cli/2.12.34/ScaResolver-linux64.tar.gz"
+      displayName: 'Download sca-resolver'
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          tar -xzvf "ScaResolver-linux64.tar.gz"
+      displayName: 'unzip sca-resolver'
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+          rm -rf "ScaResolver-linux64.tar.gz"
+      displayName: 'remove tar file'
+    - task: Checkmarx AST@3
+      inputs:
+        CheckmarxService: 'CxAST Connection new'
+        projectName: '00252150-ADO-CLI-SCAResolver'
+        branchName: 'main'
+        tenantName: 'cx_seg'
+        additionalParams: --sca-resolver /home/vsts/work/1/s/ScaResolver --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug"
+        

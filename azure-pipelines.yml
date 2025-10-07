@@ -31,6 +31,15 @@ stages:
           Remove-Item "ScaResolver-win64.zip" -Force
       displayName: 'Remove ZIP file'
 
+    - task: PowerShell@2
+      displayName: 'Run cx scan create (PowerShell)'
+      inputs:
+        targetType: 'inline'
+        script: |
+          $sx = 'C:\CLI\ScaResolver-win64\ScaResolver.exe'
+          $cmd = "cx scan create --project-name RahulP-Javavulnerable -s C:\CxOnePlugins\Sample-Projects\JavaVulnerableLab\src --branch main --sca-resolver $sx --sca-resolver-params ""--gradle-parameters=-pUSERNAME=abc -pPASSWORD=cba --log-level Debug"""
+          Write-Host "Command: $cmd"
+          iex $cmd
     - task: Checkmarx AST@3
       inputs:
         CheckmarxService: 'CxOne-Seg'

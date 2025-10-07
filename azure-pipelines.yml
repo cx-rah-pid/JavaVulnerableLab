@@ -38,5 +38,5 @@ stages:
         branchName: 'main'
         tenantName: 'cx_seg'    
         additionalParams: >
-          --sca-resolver "$(System.DefaultWorkingDirectory)\ScaResolver" 
+          --sca-resolver "$(System.DefaultWorkingDirectory)\ScaResolver\ScaResolver.exe" 
           --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba'"

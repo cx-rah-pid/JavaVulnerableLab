@@ -8,7 +8,7 @@ stages:
   jobs:
   - job: Job
     pool:
-      name: Default   # 👈 Uses self-hosted agent in the 'Default' pool
+      vmImage: windows-latest  # Changed from ubuntu-latest to windows-latest
     steps:
     - task: PowerShell@2
       inputs:
@@ -21,15 +21,15 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Expand-Archive -Path "ScaResolver-win64.zip" -DestinationPath "$(System.DefaultWorkingDirectory)\ScaResolver"
+          Expand-Archive -Path "ScaResolver-win64.zip" -DestinationPath "$(Build.SourcesDirectory)\ScaResolver"
       displayName: 'Unzip sca-resolver'
 
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
-          Remove-Item "ScaResolver-win64.zip" -Force
-      displayName: 'Remove ZIP file'
+          Remove-Item -Path "ScaResolver-win64.zip" -Force
+      displayName: 'Remove zip file'
 
     - task: Checkmarx AST@3
       inputs:
@@ -37,4 +37,6 @@ stages:
         projectName: 'RahulP-Javavulnerable'
         branchName: 'main'
         tenantName: 'cx_seg'
-        additionalParams: --sca-resolver "C:\ADO Agent\vsts-agent-win-x64-4.261.0\_work\2\s\ScaResolver\ScaResolver.exe" --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug"
+        additionalParams: >
+          --sca-resolver "$(Build.SourcesDirectory)\ScaResolver\ScaResolver.exe"
+          --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug"

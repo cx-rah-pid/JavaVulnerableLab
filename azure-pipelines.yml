@@ -37,4 +37,4 @@ stages:
         projectName: 'RahulP-Javavulnerable'
         branchName: 'main'
         tenantName: 'cx_seg'    
-        additionalParams: --sca-resolver C:\ADO Agent\vsts-agent-win-x64-4.261.0\_work\2\s\ScaResolver\ScaResolver.exe --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba'"
+        additionalParams: --sca-resolver C:\ADO Agent\vsts-agent-win-x64-4.261.0\_work\2\s\ScaResolver\ScaResolver.exe --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug"

@@ -1,42 +1,36 @@
 trigger:
   branches:
     include:
-      - main
-
+    - main
 stages:
 - stage: __default
   jobs:
   - job: Job
     pool:
-      vmImage: windows-latest  # Changed from ubuntu-latest to windows-latest
+      vmImage: ubuntu-latest
     steps:
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
-          Invoke-WebRequest -Uri "https://sca-downloads.s3.amazonaws.com/cli/2.12.34/ScaResolver-win64.zip" -OutFile "ScaResolver-win64.zip"
+          wget "https://sca-downloads.s3.amazonaws.com/cli/2.12.34/ScaResolver-linux64.tar.gz"
       displayName: 'Download sca-resolver'
-
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
-          Expand-Archive -Path "ScaResolver-win64.zip" -DestinationPath "$(Build.SourcesDirectory)\ScaResolver"
-      displayName: 'Unzip sca-resolver'
-
+          tar -xzvf "ScaResolver-linux64.tar.gz"
+      displayName: 'unzip sca-resolver'
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: |
-          Remove-Item -Path "ScaResolver-win64.zip" -Force
-      displayName: 'Remove zip file'
-
+          rm -rf "ScaResolver-linux64.tar.gz"
+      displayName: 'remove tar file'
     - task: Checkmarx AST@3
       inputs:
         CheckmarxService: 'CxOne-Seg'
-        projectName: 'RahulP-Javavulnerable'
+        projectName: '00252150-ADO-CLI-SCAResolver'
         branchName: 'main'
         tenantName: 'cx_seg'
-        additionalParams: >
-          --sca-resolver "$(Build.SourcesDirectory)\ScaResolver\ScaResolver.exe"
-          --sca-resolver-params "--gradle-parameters='-pUSERNAME=abc -pPASSWORD=cba' --log-level Debug"
+        additionalParams: --sca-resolver /home/vsts/work/1/s/ScaResolver --sca-resolver-params "--gradle-parameters='-Prepository.proxy.url=123 -Prepository.proxy.username=123 -Prepository.proxy.password=123' --log-level Debug"
